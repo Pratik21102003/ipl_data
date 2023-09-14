@@ -7,8 +7,17 @@ data1=pd.read_csv("C:/Users/Pratik/Desktop/pratik/panda basic/deliveries.csv")
 st.sidebar.title('IPL Data Analysis')
 option=st.sidebar.selectbox('Select One',['Teams','Batter','Bowler'])
 if option == 'Teams':
-    st.sidebar.selectbox('Teams',sorted(pd.concat((data['Team1'],data['Team2'])).unique()))
+    select=st.sidebar.selectbox('Teams',sorted(pd.concat((data['Team1'],data['Team2'])).unique()))
+    btn1=st.sidebar.button('Analysis')
+    if btn1:
+        st.title(select)
 elif option == 'Batter':
-    st.sidebar.selectbox('Batter',sorted(pd.concat((data1['batsman'],data1['non_striker'])).unique()))
+    select=st.sidebar.selectbox('Batter',sorted(pd.concat((data1['batsman'],data1['non_striker'])).unique()))
+    btn2=st.sidebar.button('Analysis')
+    if btn2:
+        st.title(select)
 else:
-    st.sidebar.selectbox('Bowler',sorted(data1['bowler'].unique()))
+    select=st.sidebar.selectbox('Bowler',sorted(data1['bowler'].unique()))
+    btn3=st.sidebar.button('Analysis')
+    if btn3:
+        st.title(select)

@@ -33,6 +33,16 @@ elif option == 'Batter':
     btn2=st.sidebar.button('Analysis')
     if btn2:
         st.title(select)
+        a1=data1[data1['batsman']== select]
+        a=a1.groupby(['match_id','bowling_team'])['total_runs'].sum().sort_values(ascending=False).reset_index().set_index('bowling_team')
+        st.dataframe(a['total_runs'].head())
+        c=0
+        a1=data1[data1['batsman']== select]
+        s=a1.groupby('match_id')['total_runs'].sum()
+        for i in s.values:
+         if i>=100:
+           c=c+1
+        st.metric('No. of Centuries',c)
 else:
     select=st.sidebar.selectbox('Bowler',sorted(data1['bowler'].unique()))
     btn3=st.sidebar.button('Analysis')

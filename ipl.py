@@ -21,10 +21,12 @@ if option == 'Teams':
             st.metric('Matches Lost',d1[d1['WinningTeam']!=select]['MatchNumber'].count())
         col1,col2=st.columns(2)
         with col1:
+            st.subheader('Highest Team Total')
             d2=data1[data1['batting_team']==select]
             a=d2.groupby(['match_id','bowling_team'])['total_runs'].sum().sort_values(ascending=False).reset_index().set_index('bowling_team')
             st.dataframe(a['total_runs'].head())
         with col2:
+            st.subheader('lowest Team Total')
             d2=data1[data1['batting_team']==select]
             a=d2.groupby(['match_id','bowling_team'])['total_runs'].sum().sort_values(ascending=False).reset_index().set_index('bowling_team')
             st.dataframe(a['total_runs'].tail())
@@ -32,17 +34,47 @@ elif option == 'Batter':
     select=st.sidebar.selectbox('Batter',sorted(pd.concat((data1['batsman'],data1['non_striker'])).unique()))
     btn2=st.sidebar.button('Analysis')
     if btn2:
-        st.title(select)
-        a1=data1[data1['batsman']== select]
-        a=a1.groupby(['match_id','bowling_team'])['total_runs'].sum().sort_values(ascending=False).reset_index().set_index('bowling_team')
-        st.dataframe(a['total_runs'].head())
-        c=0
-        a1=data1[data1['batsman']== select]
-        s=a1.groupby('match_id')['total_runs'].sum()
-        for i in s.values:
-         if i>=100:
-           c=c+1
-        st.metric('No. of Centuries',c)
+        st.subheader(select)
+        col1,col2,col3=st.columns(3)
+        with col1:
+            st.metric('Matches played',data1[(data1['batsman']==select)|(data1['bowler']==select)]['match_id'].drop_duplicates(keep="first").count())
+        with col2:
+            st.metric('Total Runs',data1[data1['batsman']==select]['total_runs'].sum())   
+        with col3:
+            st.metric('Highest Runs',data1[data1['batsman']==select].groupby('match_id')['total_runs'].sum().sort_values().tail(1)) 
+        col1,col2,col3=st.columns(3)
+        with col1:
+            st.metric('Ball Faced',data1[data1['batsman']==select]['ball'].count())
+        with col2:
+            a=data1[data1['batsman']==select]['match_id'].drop_duplicates(keep="first").count()- data1[data1['player_dismissed']=='V Kohli'].shape[0]
+            b=data1[data1['batsman']==select]['total_runs'].sum()
+            c=data1[data1['batsman']==select]['match_id'].drop_duplicates(keep="first").count()-a
+            st.metric('Batting Avg',round(b/c,2))
+        with col3:
+            a=data1[data1['batsman']==select]['ball'].count()
+            b=data1[data1['batsman']==select]['total_runs'].sum()
+            st.metric('Strike Rate',round(b/a*100,2))
+        col1,col2,col3=st.columns(3)
+        with col1:
+            c=0
+            a1=data1[data1['batsman']== select]
+            s=a1.groupby('match_id')['total_runs'].sum()
+            for i in s.values:
+             if i>=100:
+              c=c+1
+            st.metric('No. of Centuries',c)
+        with col2:
+             c=0
+             a1=data1[data1['batsman']== select]
+             s=a1.groupby('match_id')['total_runs'].sum()
+             for i in s.values:
+              if i>=50 and i<100:
+               c=c+1
+             st.metric('No. of Half-Centuries',c)
+        with col3:
+            a=data1[data1['batsman']== 'V Kohli']
+            c=a[(a['batsman_runs']==4)|(a['batsman_runs']==6)].shape[0]
+            st.metric('No. of Boundaries',c)
 else:
     select=st.sidebar.selectbox('Bowler',sorted(data1['bowler'].unique()))
     btn3=st.sidebar.button('Analysis')

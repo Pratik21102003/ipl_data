@@ -3,8 +3,8 @@ import numpy as np
 import streamlit as st
 
 from matplotlib import pyplot as plt
-data=pd.read_csv("C:/Users/Pratik/Desktop/pratik/panda basic/IPL_Ball_by_Ball_2008_2022.csv")
-data1=pd.read_csv("C:/Users/Pratik/Desktop/pratik/panda basic/ipl-matches.csv")
+data=pd.read_csv("PL_Ball_by_Ball_2008_2022.csv")
+data1=pd.read_csv("ipl-matches.csv")
 df=data.merge(data1,how='outer',on='ID')
 df.rename(columns={'Team2':'BowlingTeam'},inplace=True)
 

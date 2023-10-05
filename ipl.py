@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
+import matplotlib
 from matplotlib import pyplot as plt
 data=pd.read_csv("C:/Users/Pratik/Desktop/pratik/panda basic/IPL_Ball_by_Ball_2008_2022.csv")
 data1=pd.read_csv("C:/Users/Pratik/Desktop/pratik/panda basic/ipl-matches.csv")

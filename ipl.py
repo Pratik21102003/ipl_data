@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import streamlit as st
 from matplotlib import pyplot as plt
 data=pd.read_csv("IPL_Ball_by_Ball_2008_2022.csv")
@@ -11,7 +12,7 @@ st.sidebar.title('Select Options')
 option=st.sidebar.selectbox('Select One',['Preview','Teams','Players'])
 if option=='Preview':
     st.title('IPL Upto Year 2022 Preview')
-    col1,col2,col3=st.beta_columns(3)
+    col1,col2,col3=st.columns(3)
     with col1:
         st.subheader('Winning Teams')
         st.dataframe(data1[data1['MatchNumber']=='Final'][['Season','WinningTeam']].value_counts('WinningTeam'))

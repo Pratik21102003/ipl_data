@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-
 from matplotlib import pyplot as plt
 data=pd.read_csv("IPL_Ball_by_Ball_2008_2022.csv")
 data1=pd.read_csv("ipl-matches.csv")
@@ -226,15 +225,15 @@ elif option == 'Players':
         st.markdown(df[df['batter']==select1]['BattingTeam'].drop_duplicates().values)
         col1,col2,col3,col4=st.columns(4)
         with col1:
-            st.metric('Overs Bowled',data[data['bowler']==select][['ID','overs']].drop_duplicates().count().values[1])
+            st.metric('Overs Bowled',data[data['bowler']==select1][['ID','overs']].drop_duplicates().count().values[1])
         with col2:
-            st.metric('Runs concived',data[data['bowler']==select]['total_run'].sum())
+            st.metric('Runs concived',data[data['bowler']==select1]['total_run'].sum())
         with col3:
-            st.metric('Wicket Taken',data[data['bowler']==select][['ID','isWicketDelivery']].sum().values[1])
+            st.metric('Wicket Taken',data[data['bowler']==select1][['ID','isWicketDelivery']].sum().values[1])
         with col4:
-            st.metric('Economy',round(data[data['bowler']==select]['total_run'].sum()/data[data['bowler']==select][['ID','overs']].drop_duplicates().count().values[1],2))
+            st.metric('Economy',round(data[data['bowler']==select1]['total_run'].sum()/data[data['bowler']==select1][['ID','overs']].drop_duplicates().count().values[1],2))
         st.subheader('Best Bowling Figure')
-        a=df[df['bowler']==select].groupby(['ID','BattingTeam','Venue','City'])[['total_run','isWicketDelivery']].sum().sort_values('isWicketDelivery',ascending=False).reset_index().drop(['ID'], axis=1)
+        a=df[df['bowler']==select1].groupby(['ID','BattingTeam','Venue','City'])[['total_run','isWicketDelivery']].sum().sort_values('isWicketDelivery',ascending=False).reset_index().drop(['ID'], axis=1)
         a.rename(columns={'isWicketDelivery':'Wickets'},inplace=True)
         st.dataframe(a.head(10))
     

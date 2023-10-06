@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import streamlit as st
 from matplotlib import pyplot as plt
 data=pd.read_csv("IPL_Ball_by_Ball_2008_2022.csv")
